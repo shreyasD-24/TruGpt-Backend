@@ -13,7 +13,7 @@ export async function registerUser(req, res){
     let user = new User({name, email, password: hashedPassword});
     await user.save();
     res.clearCookie(COOKIE_NAME, {
-        domain: "localhost",
+        domain: "https://trugpt.netlify.app",
         httpOnly: true,
         signed: true,sameSite: "none", secure: true
     });
@@ -22,7 +22,7 @@ export async function registerUser(req, res){
     let expires = new Date();
     expires.setDate(expires.getDate() + 7);
     res.cookie(COOKIE_NAME,token, {
-        domain: "localhost", path: "/", httpOnly: true, signed: true, sameSite: "none", secure: true,  expires
+        domain: "https://trugpt.netlify.app", path: "/", httpOnly: true, signed: true, sameSite: "none", secure: true,  expires
     });
     res.status(200).json({message: "OK", name, email});
 }
@@ -38,7 +38,7 @@ export async function loginUser(req, res){
         return res.status(403).send("Incorrect password");
     }
     res.clearCookie(COOKIE_NAME, {
-        domain: "localhost",
+        domain: "https://trugpt.netlify.app",
         httpOnly: true,
         signed: true,sameSite: "none", secure: true
     });
@@ -47,7 +47,7 @@ export async function loginUser(req, res){
     let expires = new Date();
     expires.setDate(expires.getDate() + 7);
     res.cookie(COOKIE_NAME,token, {
-        domain: "localhost", path: "/", httpOnly: true, signed: true, sameSite: "none", secure: true, expires
+        domain: "https://trugpt.netlify.app", path: "/", httpOnly: true, signed: true, sameSite: "none", secure: true, expires
     });
     res.status(200).json({message: "ok", email, name: user.name});
 }
@@ -70,7 +70,7 @@ export async function logoutUser(req,res){
     let data = await jwt.verify(req.signedCookies[`${COOKIE_NAME}`], process.env.JWT_SECRET);
     if(data){
         res.clearCookie(COOKIE_NAME, {
-            domain: "localhost",
+            domain: "https://trugpt.netlify.app",
             httpOnly: true,
             signed: true,sameSite: "none", secure: true
         });
