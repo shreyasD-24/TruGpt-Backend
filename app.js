@@ -1,7 +1,6 @@
 import express from "express";
 import {config} from "dotenv";
 import indexRouter from "./routes/index.js";
-import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import {GoogleGenerativeAI} from "@google/generative-ai"
 import cors from "cors";
@@ -13,8 +12,7 @@ const app = express();
 
 app.use(cors({origin: "http://localhost:5173", credentials: true}));
 app.use(express.json()); 
-app.use(cookieParser(process.env.COOKIE_SECRET));           
-app.use(morgan('dev'));     //remove this while rendering
+app.use(cookieParser(process.env.COOKIE_SECRET));
 
 app.use("/api/v1", indexRouter);
 
