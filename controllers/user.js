@@ -15,14 +15,14 @@ export async function registerUser(req, res){
     res.clearCookie(COOKIE_NAME, {
         domain: "localhost",
         httpOnly: true,
-        signed: true,
+        signed: true,sameSite: "none", secure: true
     });
 
     let token = createToken(user._id.toString(), user.email, "7d");
     let expires = new Date();
     expires.setDate(expires.getDate() + 7);
     res.cookie(COOKIE_NAME,token, {
-        domain: "localhost", path: "/", httpOnly: true, signed: true,  expires
+        domain: "localhost", path: "/", httpOnly: true, signed: true, sameSite: "none", secure: true,  expires
     });
     res.status(200).json({message: "OK", name, email});
 }
@@ -40,14 +40,14 @@ export async function loginUser(req, res){
     res.clearCookie(COOKIE_NAME, {
         domain: "localhost",
         httpOnly: true,
-        signed: true,
+        signed: true,sameSite: "none", secure: true
     });
 
     let token = createToken(user._id.toString(), user.email, "7d");
     let expires = new Date();
     expires.setDate(expires.getDate() + 7);
     res.cookie(COOKIE_NAME,token, {
-        domain: "localhost", path: "/", httpOnly: true, signed: true,  expires
+        domain: "localhost", path: "/", httpOnly: true, signed: true, sameSite: "none", secure: true, expires
     });
     res.status(200).json({message: "ok", email, name: user.name});
 }
@@ -69,7 +69,11 @@ export async function verifyUser(req, res){
 export async function logoutUser(req,res){
     let data = await jwt.verify(req.signedCookies[`${COOKIE_NAME}`], process.env.JWT_SECRET);
     if(data){
-        res.clearCookie(COOKIE_NAME);
+        res.clearCookie(COOKIE_NAME, {
+            domain: "localhost",
+            httpOnly: true,
+            signed: true,sameSite: "none", secure: true
+        });
         return res.status(200).send("Logged Out Successfully");
     }
 }
