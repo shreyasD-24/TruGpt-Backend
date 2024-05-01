@@ -25,4 +25,7 @@ export async function verifyToken(req, res, next){
             }
         })
     }
+    else{
+        res.status(204).send("No token");
+    }
 }
